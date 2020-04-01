@@ -4,14 +4,17 @@
   "private": true,
   "scripts": {
     "dev": "nodemon ./src/bin/www",
-    "start": "node ./src/bin/www"
+    "start": "node ./src/bin/www",
+    "migrate": "node ./node_modules/migrate-mongo/bin/migrate-mongo.js -f ./config/migrate-mongo-config.js"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "dotenv": "^8.2.0",
     "express": "~4.16.1",
-    "morgan": "~1.9.1"
+    "morgan": "~1.9.1",
+    "migrate-mongo": "^7.1.0",
+    "mongodb": "^3.5.4"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"
