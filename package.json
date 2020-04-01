@@ -17,6 +17,7 @@
     "express": "~4.16.1",
     "migrate-mongo": "^7.1.0",
     "mocha": "^7.1.1",
+    "mock-req-res": "^1.1.4",
     "mongodb": "^3.5.4",
     "morgan": "~1.9.1"
   },
