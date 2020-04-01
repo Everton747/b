@@ -5,16 +5,20 @@
   "scripts": {
     "dev": "nodemon ./src/bin/www",
     "start": "node ./src/bin/www",
-    "migrate": "node ./node_modules/migrate-mongo/bin/migrate-mongo.js -f ./config/migrate-mongo-config.js"
+    "migrate": "node ./node_modules/migrate-mongo/bin/migrate-mongo.js -f ./config/migrate-mongo-config.js",
+    "test": "./node_modules/.bin/mocha tests/**/*.spec.js",
+    "test:tdd": "./node_modules/.bin/mocha tests/**/*.spec.js --watch"
   },
   "dependencies": {
+    "chai": "^4.2.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "dotenv": "^8.2.0",
     "express": "~4.16.1",
-    "morgan": "~1.9.1",
     "migrate-mongo": "^7.1.0",
-    "mongodb": "^3.5.4"
+    "mocha": "^7.1.1",
+    "mongodb": "^3.5.4",
+    "morgan": "~1.9.1"
   },
   "devDependencies": {
     "nodemon": "^2.0.2"
