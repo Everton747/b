@@ -14,8 +14,22 @@ async function findDrivers(params) {
   return dbResponse;
 }
 
-async function newDriver(name, age, genre, isAutonomous, cnhType, vehicleType) {
-  const dbResponse = await driverDB.insert(name, age, genre, isAutonomous, cnhType, vehicleType);
+async function newDriver(name, age, genre, isAutonomous, cnhType, isLoaded, vehicleType, from, destination) {
+
+  let driver = {
+    name,
+    age,
+    genre,
+    isAutonomous,
+    isLoaded,
+    cnhType,
+    vehicleType,
+    from,
+    destination,
+    createdAt: new Date(),
+  }
+
+  const dbResponse = await driverDB.insert(driver);
   if (!dbResponse) return dbResponse;
 
   return { id: dbResponse };
