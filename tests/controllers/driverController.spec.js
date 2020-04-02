@@ -170,10 +170,10 @@ describe('driverController', () => {
           "name": "Everton Vanzela",
           "age": 23,
           "genre": "Masculino",
-          "isAutonomous": true,
+          "isAutonomous": false,
           // "cnhType": "D",
           "vehicleType": 5,
-          "isLoaded": true,
+          "isLoaded": false,
           // "from": "São Paulo - SP",
           "destination": "Fortaleza - CE",
         }

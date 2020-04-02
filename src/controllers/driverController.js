@@ -12,7 +12,7 @@ async function getDrivers(req, res, next) {
 
 async function postDriver(req, res, next) {
   const { name, age, genre, isAutonomous, cnhType, isLoaded, vehicleType, from, destination } = req.body;
-  if (!name || !age || !genre || !isAutonomous || !cnhType || !isLoaded || !vehicleType || !from || !destination) {
+  if (!name || !age || !genre || isAutonomous === undefined || !cnhType || !isLoaded === undefined || !vehicleType || !from || !destination) {
     return res.sendStatus(400);
   }
 
