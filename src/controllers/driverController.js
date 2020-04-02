@@ -2,6 +2,12 @@ const driverService = require('../services/driverService');
 
 async function getDriver(req, res, next) {
 
+  const params = req.body;
+
+  const response = await driverService.findDrivers(params);
+  if(response) return res.json(response);
+
+  return res.sendStatus(500);
 }
 
 async function postDriver(req, res, next) {

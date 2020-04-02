@@ -44,10 +44,52 @@ describe('driverController', () => {
       let req = mockRequest();
       let res = mockResponse();
 
-      fakeCall = sinon.stub(driverService, 'newDriver').resolves({ id: 'qwerty' });
+      fakeCall = sinon.stub(driverService, 'findDrivers');
 
       getDriver(req, res);
-      expect(fakeCall).to.have.calledOnce;
+      expect(fakeCall).to.have.calledWith();
+    });
+
+    it('should call findDrivers service with params', () => {
+
+      let req = mockRequest({
+        body: {
+          isLoaded: true,
+        }
+      });
+      let res = mockResponse();
+
+      fakeCall = sinon.stub(driverService, 'findDrivers');
+
+      getDriver(req, res);
+      expect(fakeCall).to.have.calledWith({ isLoaded: true });
+    });
+
+    it('should return response of findDrivers', async () => {
+
+      let req = mockRequest();
+      let res = mockResponse();
+
+      fakeCall = sinon.stub(driverService, 'findDrivers').resolves([]);
+
+      await getDriver(req, res);
+      expect(res.json).to.have.calledWith([]);
+
+      fakeCall.resolves(['driver', 'driver2']);
+
+      await getDriver(req, res);
+      expect(res.json).to.have.calledWith(['driver', 'driver2']);
+    });
+
+    it('should return 500 if findDrivers service returns undefined', async () => {
+
+      let req = mockRequest();
+      let res = mockResponse();
+
+      fakeCall = sinon.stub(driverService, 'findDrivers').resolves(undefined);
+
+      await getDriver(req, res);
+      expect(res.sendStatus).to.have.calledWith(500);
     });
   });
 
