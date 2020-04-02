@@ -6,7 +6,7 @@ const dbName = process.env.DB_NAME;
 
 var ObjectID = require('mongodb').ObjectID
 
-async function insert(name, age, genre, isAutonomous, cnhType, vehicleType) {
+async function insert(driver) {
 
   const client = await MongoClient.connect(url, { useUnifiedTopology: true })
     .catch(err => { return undefined; });
@@ -17,7 +17,7 @@ async function insert(name, age, genre, isAutonomous, cnhType, vehicleType) {
 
     const db = client.db(dbName);
     let collection = db.collection('drivers');
-    let query = { name, age, genre, isAutonomous, cnhType, vehicleType };
+    let query = driver;
     let res = (await collection.insertOne(query)).insertedId;
     return res;
   }
