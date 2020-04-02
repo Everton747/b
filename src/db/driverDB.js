@@ -45,5 +45,23 @@ async function update(id, document) {
   finally { client.close(); }
 }
 
+async function find(params) {
 
-module.exports = { insert, update };
+  const client = await MongoClient.connect(url, { useUnifiedTopology: true })
+    .catch(err => { console.log(err); });
+
+  if (!client) { return; }
+
+  try {
+
+    const db = client.db(dbName);
+    let collection = db.collection('drivers');
+    let res = await collection.find(params).toArray();
+    return res;
+  }
+  catch (err) { console.log(err); }
+  finally { client.close(); }
+}
+
+
+module.exports = { insert, update, find };

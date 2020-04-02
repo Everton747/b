@@ -1,5 +1,19 @@
 const driverDB = require('../db/driverDB');
 
+async function findDrivers(params) {
+
+  const dbResponse = await driverDB.find(params);
+  if(!dbResponse) return dbResponse;
+
+  dbResponse.map((element) => {
+    element.id = element._id;
+    delete element._id;
+    return element
+  });
+
+  return dbResponse;
+}
+
 async function newDriver(name, age, genre, isAutonomous, cnhType, vehicleType) {
   const dbResponse = await driverDB.insert(name, age, genre, isAutonomous, cnhType, vehicleType);
   if (!dbResponse) return dbResponse;
@@ -19,5 +33,5 @@ async function updateDriver(id, param) {
   return response;
 }
 
-module.exports = { newDriver, updateDriver };
+module.exports = { findDrivers, newDriver, updateDriver };
 

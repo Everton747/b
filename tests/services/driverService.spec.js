@@ -4,7 +4,7 @@ const chai = require('chai');
 
 chai.use(require('sinon-chai'));
 
-const { newDriver, updateDriver } = require('../../src/services/driverService');
+const { newDriver, updateDriver, findDrivers } = require('../../src/services/driverService');
 
 const driverDB = require('../../src/db/driverDB');
 
@@ -16,6 +16,9 @@ describe('driverService', () => {
     });
     it('should exist updateDriver method', () => {
       expect(updateDriver).to.be.exist;
+    });
+    it('should exist findDrivers method', () => {
+      expect(findDrivers).to.be.exist;
     });
   });
 
@@ -87,6 +90,71 @@ describe('driverService', () => {
         sinon.stub(driverDB, 'update').resolves(undefined);
 
       let response = await updateDriver();
+      expect(response).to.equal(undefined);
+
+      fakeDbCall.restore();
+    });
+  });
+
+  describe('Find Drivers', () => {
+
+    it('should return drivers data if dbResponse is success', async () => {
+
+      let fakeReturn = [
+        {
+          _id: '5e86530757ae565848467ca8',
+          name: 'Everton Vanzela',
+          age: 23,
+          genre: 'Masculino',
+          isAutonomous: true,
+          cnhType: 'D',
+          vehicleType: true
+        },
+        {
+          _id: '5e86530857ae565848467ca9',
+          name: 'Everton Vanzela',
+          age: 23,
+          genre: 'Masculino',
+          isAutonomous: true,
+          cnhType: 'D',
+          vehicleType: true
+        }];
+
+      let expectedResponse = [
+        {
+          id: '5e86530757ae565848467ca8',
+          name: 'Everton Vanzela',
+          age: 23,
+          genre: 'Masculino',
+          isAutonomous: true,
+          cnhType: 'D',
+          vehicleType: true
+        },
+        {
+          id: '5e86530857ae565848467ca9',
+          name: 'Everton Vanzela',
+          age: 23,
+          genre: 'Masculino',
+          isAutonomous: true,
+          cnhType: 'D',
+          vehicleType: true
+        }];
+
+      let fakeDbCall =
+        sinon.stub(driverDB, 'find').resolves(fakeReturn);
+
+      let response = await findDrivers();
+      expect(response).to.be.eqls(expectedResponse);
+
+      fakeDbCall.restore();
+    });
+
+    it('should return undefined, case dbResponse is error', async () => {
+
+      let fakeDbCall =
+        sinon.stub(driverDB, 'find').resolves(undefined);
+
+      let response = await findDrivers();
       expect(response).to.equal(undefined);
 
       fakeDbCall.restore();
