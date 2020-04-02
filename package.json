@@ -7,7 +7,18 @@
     "start": "node ./src/bin/www",
     "migrate": "node ./node_modules/migrate-mongo/bin/migrate-mongo.js -f ./config/migrate-mongo-config.js",
     "test": "./node_modules/.bin/mocha tests/**/*.spec.js",
-    "test:tdd": "./node_modules/.bin/mocha tests/**/*.spec.js --watch"
+    "test:tdd": "./node_modules/.bin/mocha tests/**/*.spec.js --watch",
+    "test:coverage": "nyc npm test"
+  },
+  "nyc": {
+    "reporter": [
+      "text",
+      "html"
+    ],
+    "exclude": [
+      "tests/**",
+      "src/db/**"
+    ]
   },
   "dependencies": {
     "chai": "^4.2.0",
@@ -15,15 +26,16 @@
     "debug": "~2.6.9",
     "dotenv": "^8.2.0",
     "express": "~4.16.1",
-    "migrate-mongo": "^7.1.0",
+    "migrate-mongo": "^7.1.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2",
     "mocha": "^7.1.1",
     "mock-req-res": "^1.1.4",
     "mongodb": "^3.5.4",
     "morgan": "~1.9.1",
     "sinon": "^9.0.1",
-    "sinon-chai": "^3.5.0"
-  },
-  "devDependencies": {
-    "nodemon": "^2.0.2"
+    "sinon-chai": "^3.5.0",
+    "nyc": "^15.0.0"
   }
 }
