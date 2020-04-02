@@ -1,7 +1,12 @@
 const expect = require('chai').expect;
-const { mockRequest, mockResponse } = require('mock-req-res')
+const sinon = require('sinon');
+const chai = require('chai');
+const { mockRequest, mockResponse } = require('mock-req-res');
+
+chai.use(require('sinon-chai'));
 
 const { getDriver, postDriver, putDriver, deleteDriver } = require('../../src/controllers/driverController');
+const driverService = require('../../src/services/driverService');
 
 describe('driverController', () => {
 
@@ -23,7 +28,7 @@ describe('driverController', () => {
 
   describe('PostDriver', () => {
 
-    it('should return 200 if contains all parameters', () => {
+    it('should call newDriver service if contains all parameters', async () => {
       let req = {
         body: {
           "name": "Everton Vanzela",
@@ -37,8 +42,59 @@ describe('driverController', () => {
 
       let res = mockResponse();
 
-      postDriver(req, res);
-      expect(res.sendStatus).to.have.been.calledWith(200);
+      let fakeCall =
+        sinon.stub(driverService, 'newDriver').resolves({ id: 'qwerty' });
+
+      await postDriver(req, res);
+      expect(fakeCall).to.have.been.calledOnce;
+
+      fakeCall.restore();
+    });
+
+    it('should return id if insertion is okay', async () => {
+      let req = {
+        body: {
+          "name": "Everton Vanzela",
+          "age": 23,
+          "genre": "Masculino",
+          "isAutonomous": true,
+          "cnhType": "D",
+          "vehicleType": 5
+        }
+      }
+
+      let res = mockResponse();
+
+      let fakeCall =
+        sinon.stub(driverService, 'newDriver').resolves({ id: 'qwerty' });
+
+      await postDriver(req, res);
+      expect(res.json).to.have.been.calledWith({ id: 'qwerty' });
+
+      fakeCall.restore();
+    });
+
+    it('should return 500 if insertion is errored', async () => {
+      let req = {
+        body: {
+          "name": "Everton Vanzela",
+          "age": 23,
+          "genre": "Masculino",
+          "isAutonomous": true,
+          "cnhType": "D",
+          "vehicleType": 5
+        }
+      }
+
+      let res = mockResponse();
+
+      let fakeCall =
+        sinon.stub(driverService, 'newDriver').resolves(undefined);
+
+      await postDriver(req, res);
+      expect(res.sendStatus).to.have.been.calledWith(500);
+
+      fakeCall.restore();
     });
 
     it('should return 400 if have missing parameters', () => {
@@ -49,8 +105,7 @@ describe('driverController', () => {
           "genre": "Masculino",
           "isAutonomous": true,
           // "cnhType": "D",
-          "vehicleType": 5,
-          "isLoaded": true
+          "vehicleType": 5
         }
       }
 
