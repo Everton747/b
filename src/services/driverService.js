@@ -1,9 +1,10 @@
 const driverDB = require('../db/driverDB');
+const { getCityLatLong } = require('../utils/index');
 
 async function findDrivers(params) {
 
   const dbResponse = await driverDB.find(params);
-  if(!dbResponse) return dbResponse;
+  if (!dbResponse) return dbResponse;
 
   dbResponse.map((element) => {
     element.id = element._id;
@@ -24,21 +25,30 @@ async function newDriver(name, age, genre, isAutonomous, cnhType, isLoaded, vehi
     isLoaded,
     cnhType,
     vehicleType,
-    from,
-    destination,
+    from: {
+      city: from,
+      coord: getCityLatLong(from),
+    },
+    destination: {
+      city: destination,
+      coord: getCityLatLong(destination),
+    },
     createdAt: new Date(),
   }
+
+  console.log(driver)
 
   const dbResponse = await driverDB.insert(driver);
   if (!dbResponse) return dbResponse;
 
+  // return undefined
   return { id: dbResponse };
 }
 
 async function updateDriver(id, param) {
 
   const dbResponse = await driverDB.update(id, param);
-  if(!dbResponse) return dbResponse;
+  if (!dbResponse) return dbResponse;
 
   let response = dbResponse.value;
   response.id = response._id;
