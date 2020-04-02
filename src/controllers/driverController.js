@@ -1,6 +1,6 @@
 const driverService = require('../services/driverService');
 
-async function getDriver(req, res, next) {
+async function getDrivers(req, res, next) {
 
   const params = req.body;
 
@@ -38,4 +38,4 @@ async function deleteDriver(req, res, next) {
 
 }
 
-module.exports = { getDriver, postDriver, putDriver, deleteDriver };
+module.exports = { getDrivers, postDriver, putDriver, deleteDriver };

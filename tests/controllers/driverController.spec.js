@@ -5,7 +5,7 @@ const { mockRequest, mockResponse } = require('mock-req-res');
 
 chai.use(require('sinon-chai'));
 
-const { getDriver, postDriver, putDriver, deleteDriver } = require('../../src/controllers/driverController');
+const { getDrivers, postDriver, putDriver, deleteDriver } = require('../../src/controllers/driverController');
 const driverService = require('../../src/services/driverService');
 
 describe('driverController', () => {
@@ -24,7 +24,7 @@ describe('driverController', () => {
   describe('Smoke Tests', () => {
 
     it('should exist get method', () => {
-      expect(getDriver).to.exist;
+      expect(getDrivers).to.exist;
     });
     it('should exist post method', () => {
       expect(postDriver).to.exist;
@@ -37,7 +37,7 @@ describe('driverController', () => {
     });
   });
 
-  describe('getDriver', () => {
+  describe('getDrivers', () => {
 
     it('should call findDrivers service without param', () => {
 
@@ -46,7 +46,7 @@ describe('driverController', () => {
 
       fakeCall = sinon.stub(driverService, 'findDrivers');
 
-      getDriver(req, res);
+      getDrivers(req, res);
       expect(fakeCall).to.have.calledWith();
     });
 
@@ -61,7 +61,7 @@ describe('driverController', () => {
 
       fakeCall = sinon.stub(driverService, 'findDrivers');
 
-      getDriver(req, res);
+      getDrivers(req, res);
       expect(fakeCall).to.have.calledWith({ isLoaded: true });
     });
 
@@ -72,12 +72,12 @@ describe('driverController', () => {
 
       fakeCall = sinon.stub(driverService, 'findDrivers').resolves([]);
 
-      await getDriver(req, res);
+      await getDrivers(req, res);
       expect(res.json).to.have.calledWith([]);
 
       fakeCall.resolves(['driver', 'driver2']);
 
-      await getDriver(req, res);
+      await getDrivers(req, res);
       expect(res.json).to.have.calledWith(['driver', 'driver2']);
     });
 
@@ -88,7 +88,7 @@ describe('driverController', () => {
 
       fakeCall = sinon.stub(driverService, 'findDrivers').resolves(undefined);
 
-      await getDriver(req, res);
+      await getDrivers(req, res);
       expect(res.sendStatus).to.have.calledWith(500);
     });
   });
