@@ -43,5 +43,54 @@ describe('driverService', () => {
       fakeDbCall.restore();
     });
   });
+
+  describe('Update Driver', () => {
+
+    it('should return driver data if dbResponse is success', async () => {
+
+      let fakeReturn = {
+        lastErrorObject: { n: 1, updatedExisting: true },
+        value: {
+          _id: '5e8623899371e75f54af98d7',
+          name: 'Everton Vanzella',
+          age: 23,
+          genre: 'Masculino',
+          isAutonomous: true,
+          cnhType: 'D',
+          vehicleType: true
+        },
+        ok: 1
+      }
+
+      let expectedResponse = {
+        id: '5e8623899371e75f54af98d7',
+        name: 'Everton Vanzella',
+        age: 23,
+        genre: 'Masculino',
+        isAutonomous: true,
+        cnhType: 'D',
+        vehicleType: true
+      }
+
+      let fakeDbCall =
+        sinon.stub(driverDB, 'update').resolves(fakeReturn);
+
+      let response = await updateDriver();
+      expect(response).to.eql(expectedResponse);
+
+      fakeDbCall.restore();
+    });
+
+    it('should return undefined, case dbResponse is error', async () => {
+
+      let fakeDbCall =
+        sinon.stub(driverDB, 'update').resolves(undefined);
+
+      let response = await updateDriver();
+      expect(response).to.equal(undefined);
+
+      fakeDbCall.restore();
+    });
+  });
 });
 

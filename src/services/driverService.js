@@ -8,7 +8,15 @@ async function newDriver(name, age, genre, isAutonomous, cnhType, vehicleType) {
 }
 
 async function updateDriver(id, param) {
-return 'anything'
+
+  const dbResponse = await driverDB.update(id, param);
+  if(!dbResponse) return dbResponse;
+
+  let response = dbResponse.value;
+  response.id = response._id;
+  delete response._id;
+
+  return response;
 }
 
 module.exports = { newDriver, updateDriver };

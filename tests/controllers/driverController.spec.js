@@ -36,7 +36,10 @@ describe('driverController', () => {
           "genre": "Masculino",
           "isAutonomous": true,
           "cnhType": "D",
-          "vehicleType": 5
+          "vehicleType": 5,
+          "isLoaded": true,
+          "from": "São Paulo - SP",
+          "destination": "Fortaleza - CE",
         }
       }
 
@@ -59,7 +62,10 @@ describe('driverController', () => {
           "genre": "Masculino",
           "isAutonomous": true,
           "cnhType": "D",
-          "vehicleType": 5
+          "vehicleType": 5,
+          "isLoaded": true,
+          "from": "São Paulo - SP",
+          "destination": "Fortaleza - CE",
         }
       }
 
@@ -82,7 +88,10 @@ describe('driverController', () => {
           "genre": "Masculino",
           "isAutonomous": true,
           "cnhType": "D",
-          "vehicleType": 5
+          "vehicleType": 5,
+          "isLoaded": true,
+          "from": "São Paulo - SP",
+          "destination": "Fortaleza - CE",
         }
       }
 
@@ -105,7 +114,10 @@ describe('driverController', () => {
           "genre": "Masculino",
           "isAutonomous": true,
           // "cnhType": "D",
-          "vehicleType": 5
+          "vehicleType": 5,
+          "isLoaded": true,
+          // "from": "São Paulo - SP",
+          "destination": "Fortaleza - CE",
         }
       }
 
