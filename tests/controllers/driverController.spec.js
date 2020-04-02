@@ -10,6 +10,17 @@ const driverService = require('../../src/services/driverService');
 
 describe('driverController', () => {
 
+  var fakeCall;
+
+  beforeEach(() => {
+    fakeCall = sinon.stub();
+  });
+
+  afterEach(() => {
+    if (fakeCall.restore)
+      fakeCall.restore();
+  });
+
   describe('Smoke Tests', () => {
 
     it('should exist get method', () => {
@@ -23,6 +34,20 @@ describe('driverController', () => {
     });
     it('should exist delete method', () => {
       expect(deleteDriver).to.exist;
+    });
+  });
+
+  describe('getDriver', () => {
+
+    it('should call findDrivers service without param', () => {
+
+      let req = mockRequest();
+      let res = mockResponse();
+
+      fakeCall = sinon.stub(driverService, 'newDriver').resolves({ id: 'qwerty' });
+
+      getDriver(req, res);
+      expect(fakeCall).to.have.calledOnce;
     });
   });
 
@@ -45,13 +70,10 @@ describe('driverController', () => {
 
       let res = mockResponse();
 
-      let fakeCall =
-        sinon.stub(driverService, 'newDriver').resolves({ id: 'qwerty' });
+      fakeCall = sinon.stub(driverService, 'newDriver').resolves({ id: 'qwerty' });
 
       await postDriver(req, res);
       expect(fakeCall).to.have.been.calledOnce;
-
-      fakeCall.restore();
     });
 
     it('should return id if insertion is okay', async () => {
@@ -71,13 +93,10 @@ describe('driverController', () => {
 
       let res = mockResponse();
 
-      let fakeCall =
-        sinon.stub(driverService, 'newDriver').resolves({ id: 'qwerty' });
+      fakeCall = sinon.stub(driverService, 'newDriver').resolves({ id: 'qwerty' });
 
       await postDriver(req, res);
       expect(res.json).to.have.been.calledWith({ id: 'qwerty' });
-
-      fakeCall.restore();
     });
 
     it('should return 500 if insertion is errored', async () => {
@@ -97,13 +116,10 @@ describe('driverController', () => {
 
       let res = mockResponse();
 
-      let fakeCall =
-        sinon.stub(driverService, 'newDriver').resolves(undefined);
+      fakeCall = sinon.stub(driverService, 'newDriver').resolves(undefined);
 
       await postDriver(req, res);
       expect(res.sendStatus).to.have.been.calledWith(500);
-
-      fakeCall.restore();
     });
 
     it('should return 400 if have missing parameters', () => {
@@ -143,13 +159,10 @@ describe('driverController', () => {
 
       let res = mockResponse();
 
-      let fakeCall =
-        sinon.stub(driverService, 'updateDriver');
+      fakeCall = sinon.stub(driverService, 'updateDriver');
 
       putDriver(req, res);
       expect(fakeCall).to.have.been.called;
-
-      fakeCall.restore();
     });
 
     it('should return driver object if update is success', async () => {
@@ -176,13 +189,10 @@ describe('driverController', () => {
       };
 
 
-      let fakeCall =
-        sinon.stub(driverService, 'updateDriver').returns({ fakeReturn });
+      fakeCall = sinon.stub(driverService, 'updateDriver').returns({ fakeReturn });
 
       await putDriver(req, res);
       expect(res.send).to.have.been.calledWith({ fakeReturn });
-
-      fakeCall.restore();
     });
 
     it('should return 500 if update is errored', async () => {
@@ -198,13 +208,10 @@ describe('driverController', () => {
 
       let res = mockResponse();
 
-      let fakeCall =
-        sinon.stub(driverService, 'updateDriver').returns(undefined);
+      fakeCall = sinon.stub(driverService, 'updateDriver').returns(undefined);
 
       await putDriver(req, res);
       expect(res.sendStatus).to.have.been.calledWith(500);
-
-      fakeCall.restore();
     });
 
     it('should return 400 if dont have update body', async () => {
