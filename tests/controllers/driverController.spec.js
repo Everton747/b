@@ -116,4 +116,106 @@ describe('driverController', () => {
     });
   });
 
+  describe('PutDriver', () => {
+
+    it('should call updateDriver service if contains all parameters', () => {
+
+      let req = {
+        query: {
+          id: 102030,
+        },
+        body: {
+          name: 'João',
+        }
+      };
+
+      let res = mockResponse();
+
+      let fakeCall =
+        sinon.stub(driverService, 'updateDriver');
+
+      putDriver(req, res);
+      expect(fakeCall).to.have.been.called;
+
+      fakeCall.restore();
+    });
+
+    it('should return driver object if update is success', async () => {
+
+      let req = {
+        query: {
+          id: 102030,
+        },
+        body: {
+          name: 'João',
+        }
+      };
+
+      let res = mockResponse();
+
+      let fakeReturn = {
+        id: 102030,
+        name: "João",
+        age: 23,
+        genre: "Masculino",
+        isAutonomous: true,
+        cnhType: "D",
+        vehicleType: 5
+      };
+
+
+      let fakeCall =
+        sinon.stub(driverService, 'updateDriver').returns({ fakeReturn });
+
+      await putDriver(req, res);
+      expect(res.send).to.have.been.calledWith({ fakeReturn });
+
+      fakeCall.restore();
+    });
+
+    it('should return 500 if update is errored', async () => {
+
+      let req = {
+        query: {
+          id: 102030,
+        },
+        body: {
+          name: 'João',
+        }
+      };
+
+      let res = mockResponse();
+
+      let fakeCall =
+        sinon.stub(driverService, 'updateDriver').returns(undefined);
+
+      await putDriver(req, res);
+      expect(res.sendStatus).to.have.been.calledWith(500);
+
+      fakeCall.restore();
+    });
+
+    it('should return 400 if dont have update body', async () => {
+
+      let req = {
+        query: {
+          id: '102030',
+        }
+      };
+      let res = mockResponse();
+
+      await putDriver(req, res);
+      expect(res.sendStatus).to.have.been.calledWith(400);
+    });
+
+    it('should return 404 if dont have id in query params', async () => {
+
+      let req = mockRequest();
+      let res = mockResponse();
+
+      await putDriver(req, res);
+      expect(res.sendStatus).to.have.been.calledWith(400);
+    });
+  });
+
 });

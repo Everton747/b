@@ -18,6 +18,14 @@ async function postDriver(req, res, next) {
 
 async function putDriver(req, res, next) {
 
+  const id = req.query.id;
+  const param = req.body;
+  if (!id || !param) return res.sendStatus(400);
+
+  const response = await driverService.updateDriver(id, param);
+  if(response)return res.send(response);
+
+  return res.sendStatus(500);
 }
 
 async function deleteDriver(req, res, next) {
