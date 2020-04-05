@@ -36,8 +36,6 @@ async function newDriver(name, age, genre, isAutonomous, cnhType, isLoaded, vehi
     createdAt: new Date(),
   }
 
-  console.log(driver)
-
   const dbResponse = await driverDB.insert(driver);
   if (!dbResponse) return dbResponse;
 
